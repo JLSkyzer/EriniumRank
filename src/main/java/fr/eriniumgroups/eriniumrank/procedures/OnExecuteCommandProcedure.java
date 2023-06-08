@@ -236,6 +236,14 @@ public class OnExecuteCommandProcedure {
 								MainJSonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 								if (MainJSonObject.get("setgroup.command") != null) {
 									if (!MainJSonObject.get("setgroup.command").getAsBoolean()) {
+										if (dependencies.get("event") != null) {
+											Object _obj = dependencies.get("event");
+											if (_obj instanceof Event) {
+												Event _evt = (Event) _obj;
+												if (_evt.isCancelable())
+													_evt.setCanceled(true);
+											}
+										}
 										if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
 											((PlayerEntity) entity).sendStatusMessage(
 													new StringTextComponent("\u00A7cVous n'avez pas la permission d'utiliser cette commande !"),
