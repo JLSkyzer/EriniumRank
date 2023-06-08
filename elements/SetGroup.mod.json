@@ -1,0 +1,9 @@
+{
+  "_fv": 34,
+  "_type": "command",
+  "definition": {
+    "commandName": "setgroup",
+    "permissionLevel": "No requirement",
+    "argsxml": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"args_start\" deletable=\"false\" x=\"40\" y=\"40\"><next><block type=\"entity\"><field name=\"name\">player</field><field name=\"type\">player</field><statement name=\"args\"><block type=\"string\"><field name=\"type\">word</field><field name=\"name\">group</field><statement name=\"args\"><block type=\"call_procedure\"><field name=\"procedure\">SetGroupCommand</field></block></statement><next><block type=\"call_procedure\"><field name=\"procedure\">SetGroupError</field></block></next></block></statement><next><block type=\"call_procedure\"><field name=\"procedure\">SetGroupError</field></block></next></block></next></block></xml>"
+  }
+}
