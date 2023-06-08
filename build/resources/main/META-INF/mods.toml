@@ -1,14 +1,14 @@
 modLoader="javafml"
 loaderVersion="[36,)"
-license="Academic Free License v3.0"
+license="MIT License"
 
 [[mods]]
 modId="eriniumrank"
 version="1.0.0"
 displayName="Erinium Rank"
-credits="Created using mod maker MCreator - https://mcreator.net/about"
-displayURL="https://mcreator.net"
-authors="killi, MCreator"
+credits="Created by JLSkyzer"
+displayURL="https://github.com/JLSkyzer/EriniumRank/tree/main"
+authors="JLSkyzer"
 
 [[dependencies.eriniumrank]]
     modId="minecraft"
