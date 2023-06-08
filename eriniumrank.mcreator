@@ -167,7 +167,7 @@
     "dependencies": [],
     "dependants": [],
     "mcreatorDependencies": [],
-    "currentGenerator": "forge-1.16.5",
+    "currentGenerator": "forge-1.18.2",
     "credits": "Created by JLSkyzer",
     "modElementsPackage": "fr.eriniumgroups.eriniumrank",
     "lockBaseModFiles": false

@@ -2,14 +2,12 @@ package fr.eriniumgroups.eriniumrank.procedures;
 
 import net.minecraftforge.fml.loading.FMLPaths;
 
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.CommandSource;
-
-import java.util.Map;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.CommandSourceStack;
 
 import java.io.IOException;
 import java.io.FileWriter;
@@ -17,8 +15,7 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.BufferedReader;
 
-import fr.eriniumgroups.eriniumrank.EriniumrankModVariables;
-import fr.eriniumgroups.eriniumrank.EriniumrankMod;
+import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.context.CommandContext;
@@ -29,20 +26,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.Gson;
 
 public class SetGroupCommandProcedure {
-
-	public static void executeProcedure(Map<String, Object> dependencies) {
-		if (dependencies.get("arguments") == null) {
-			if (!dependencies.containsKey("arguments"))
-				EriniumrankMod.LOGGER.warn("Failed to load dependency arguments for procedure SetGroupCommand!");
+	public static void execute(CommandContext<CommandSourceStack> arguments, Entity entity) {
+		if (entity == null)
 			return;
-		}
-		if (dependencies.get("entity") == null) {
-			if (!dependencies.containsKey("entity"))
-				EriniumrankMod.LOGGER.warn("Failed to load dependency entity for procedure SetGroupCommand!");
-			return;
-		}
-		CommandContext<CommandSource> arguments = (CommandContext<CommandSource>) dependencies.get("arguments");
-		Entity entity = (Entity) dependencies.get("entity");
 		File file = new File("");
 		com.google.gson.JsonObject JsonObject = new com.google.gson.JsonObject();
 		if ((new Object() {
@@ -54,7 +40,7 @@ public class SetGroupCommandProcedure {
 					return null;
 				}
 			}
-		}.getEntity()) instanceof PlayerEntity || (new Object() {
+		}.getEntity()) instanceof Player || (new Object() {
 			public Entity getEntity() {
 				try {
 					return EntityArgument.getEntity(arguments, "player");
@@ -63,9 +49,9 @@ public class SetGroupCommandProcedure {
 					return null;
 				}
 			}
-		}.getEntity()) instanceof ServerPlayerEntity) {
+		}.getEntity()) instanceof ServerPlayer) {
 			if (!(StringArgumentType.getString(arguments, "group")).equals("")) {
-				file = (File) new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
+				file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
 						File.separator + (StringArgumentType.getString(arguments, "group") + ".json"));
 				if (file.exists()) {
 					{
@@ -142,13 +128,12 @@ public class SetGroupCommandProcedure {
 									});
 								}
 							}
-
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
 					{
-						String _setval = (StringArgumentType.getString(arguments, "group"));
+						String _setval = StringArgumentType.getString(arguments, "group");
 						(new Object() {
 							public Entity getEntity() {
 								try {
@@ -172,8 +157,8 @@ public class SetGroupCommandProcedure {
 							}.getEntity()));
 						});
 					}
-					if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
-						((PlayerEntity) entity).sendStatusMessage(new StringTextComponent(("\u00A7e" + (new Object() {
+					if (entity instanceof Player _player && !_player.level.isClientSide())
+						_player.displayClientMessage(new TextComponent(("\u00A7e" + (new Object() {
 							public Entity getEntity() {
 								try {
 									return EntityArgument.getEntity(arguments, "player");
@@ -184,7 +169,6 @@ public class SetGroupCommandProcedure {
 							}
 						}.getEntity()).getDisplayName().getString() + " \u00A7cest devenu \u00A7e"
 								+ StringArgumentType.getString(arguments, "group"))), (false));
-					}
 					if ((new Object() {
 						public Entity getEntity() {
 							try {
@@ -194,42 +178,21 @@ public class SetGroupCommandProcedure {
 								return null;
 							}
 						}
-					}.getEntity()) instanceof PlayerEntity && !(new Object() {
-						public Entity getEntity() {
-							try {
-								return EntityArgument.getEntity(arguments, "player");
-							} catch (CommandSyntaxException e) {
-								e.printStackTrace();
-								return null;
-							}
-						}
-					}.getEntity()).world.isRemote()) {
-						((PlayerEntity) (new Object() {
-							public Entity getEntity() {
-								try {
-									return EntityArgument.getEntity(arguments, "player");
-								} catch (CommandSyntaxException e) {
-									e.printStackTrace();
-									return null;
-								}
-							}
-						}.getEntity())).sendStatusMessage(new StringTextComponent(
-								("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))), (false));
-					}
+					}.getEntity()) instanceof Player _player && !_player.level.isClientSide())
+						_player.displayClientMessage(
+								new TextComponent(("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))),
+								(false));
 				} else {
-					if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
-						((PlayerEntity) entity).sendStatusMessage(new StringTextComponent("\u00A7cLe grade n'existe pas !"), (false));
-					}
+					if (entity instanceof Player _player && !_player.level.isClientSide())
+						_player.displayClientMessage(new TextComponent("\u00A7cLe grade n'existe pas !"), (false));
 				}
 			} else {
-				if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
-					((PlayerEntity) entity).sendStatusMessage(new StringTextComponent("\u00A7cLe grade n'\u00E9xiste pas !"), (false));
-				}
+				if (entity instanceof Player _player && !_player.level.isClientSide())
+					_player.displayClientMessage(new TextComponent("\u00A7cLe grade n'\u00E9xiste pas !"), (false));
 			}
 		} else {
-			if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
-				((PlayerEntity) entity).sendStatusMessage(new StringTextComponent("\u00A7cVeuillez choisir un joueur !"), (false));
-			}
+			if (entity instanceof Player _player && !_player.level.isClientSide())
+				_player.displayClientMessage(new TextComponent("\u00A7cVeuillez choisir un joueur !"), (false));
 		}
 	}
 }

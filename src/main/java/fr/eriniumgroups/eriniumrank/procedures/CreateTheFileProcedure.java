@@ -4,9 +4,9 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.Event;
 
-import java.util.Map;
-import java.util.Collections;
+import javax.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.FileWriter;
@@ -15,19 +15,21 @@ import java.io.File;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Gson;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CreateTheFileProcedure {
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-	private static class GlobalTrigger {
-		@SubscribeEvent
-		public static void init(FMLCommonSetupEvent event) {
-			executeProcedure(Collections.emptyMap());
-		}
+	@SubscribeEvent
+	public static void init(FMLCommonSetupEvent event) {
+		execute();
 	}
 
-	public static void executeProcedure(Map<String, Object> dependencies) {
+	public static void execute() {
+		execute(null);
+	}
+
+	private static void execute(@Nullable Event event) {
 		File file = new File("");
 		com.google.gson.JsonObject jsonObject = new com.google.gson.JsonObject();
-		file = (File) new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"), File.separator + "default.json");
+		file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"), File.separator + "default.json");
 		if (!file.exists()) {
 			try {
 				file.getParentFile().mkdirs();

@@ -1,81 +1,47 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.event.ServerChatEvent;
 
-import net.minecraft.world.IWorld;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.Util;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.Entity;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.Util;
 
-import java.util.Map;
-import java.util.HashMap;
+import javax.annotation.Nullable;
 
-import fr.eriniumgroups.eriniumrank.EriniumrankModVariables;
-import fr.eriniumgroups.eriniumrank.EriniumrankMod;
+import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
 
+@Mod.EventBusSubscriber
 public class OnSendChatProcedure {
-	@Mod.EventBusSubscriber
-	private static class GlobalTrigger {
-		@SubscribeEvent
-		public static void onChat(ServerChatEvent event) {
-			ServerPlayerEntity entity = event.getPlayer();
-			double i = entity.getPosX();
-			double j = entity.getPosY();
-			double k = entity.getPosZ();
-			Map<String, Object> dependencies = new HashMap<>();
-			dependencies.put("x", i);
-			dependencies.put("y", j);
-			dependencies.put("z", k);
-			dependencies.put("world", entity.world);
-			dependencies.put("entity", entity);
-			dependencies.put("text", event.getMessage());
-			dependencies.put("event", event);
-			executeProcedure(dependencies);
-		}
+	@SubscribeEvent
+	public static void onChat(ServerChatEvent event) {
+		execute(event, event.getPlayer().level, event.getPlayer(), event.getMessage());
 	}
 
-	public static void executeProcedure(Map<String, Object> dependencies) {
-		if (dependencies.get("world") == null) {
-			if (!dependencies.containsKey("world"))
-				EriniumrankMod.LOGGER.warn("Failed to load dependency world for procedure OnSendChat!");
+	public static void execute(LevelAccessor world, Entity entity, String text) {
+		execute(null, world, entity, text);
+	}
+
+	private static void execute(@Nullable Event event, LevelAccessor world, Entity entity, String text) {
+		if (entity == null || text == null)
 			return;
+		if (event != null && event.isCancelable()) {
+			event.setCanceled(true);
 		}
-		if (dependencies.get("entity") == null) {
-			if (!dependencies.containsKey("entity"))
-				EriniumrankMod.LOGGER.warn("Failed to load dependency entity for procedure OnSendChat!");
-			return;
-		}
-		if (dependencies.get("text") == null) {
-			if (!dependencies.containsKey("text"))
-				EriniumrankMod.LOGGER.warn("Failed to load dependency text for procedure OnSendChat!");
-			return;
-		}
-		IWorld world = (IWorld) dependencies.get("world");
-		Entity entity = (Entity) dependencies.get("entity");
-		String text = (String) dependencies.get("text");
-		if (dependencies.get("event") != null) {
-			Object _obj = dependencies.get("event");
-			if (_obj instanceof Event) {
-				Event _evt = (Event) _obj;
-				if (_evt.isCancelable())
-					_evt.setCanceled(true);
-			}
-		}
-		if (!world.isRemote()) {
-			MinecraftServer mcserv = ServerLifecycleHooks.getCurrentServer();
-			if (mcserv != null)
-				mcserv.getPlayerList()
-						.func_232641_a_(new StringTextComponent(("<"
+		if (!world.isClientSide()) {
+			MinecraftServer _mcserv = ServerLifecycleHooks.getCurrentServer();
+			if (_mcserv != null)
+				_mcserv.getPlayerList()
+						.broadcastMessage(new TextComponent(("<"
 								+ (entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
 										.orElse(new EriniumrankModVariables.PlayerVariables())).prefix
-								+ " " + entity.getDisplayName().getString() + "\u00A7r> " + text)), ChatType.SYSTEM, Util.DUMMY_UUID);
+								+ " " + entity.getDisplayName().getString() + "\u00A7r> " + text)), ChatType.SYSTEM, Util.NIL_UUID);
 		}
 	}
 }
