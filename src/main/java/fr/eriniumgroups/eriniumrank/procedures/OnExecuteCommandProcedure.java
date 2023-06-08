@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.CommandSource;
 
@@ -81,17 +81,17 @@ public class OnExecuteCommandProcedure {
 								if (MainJSonObject.get(("command." + TempText)) != null) {
 									if (MainJSonObject.get(("command." + TempText)).getAsBoolean()) {
 										if (world instanceof ServerLevel _level)
-											_level.getServer().getCommands().performCommand(
+											_level.getServer().getCommands().performPrefixedCommand(
 													new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "",
-															new TextComponent(""), _level.getServer(), null).withSuppressedOutput(),
+															Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 													("execute as " + entity.getDisplayName().getString() + " run " + (command).replace("/", "")));
 									} else {
 										if (MainJSonObject.get("command.*") != null) {
 											if (MainJSonObject.get("command.*").getAsBoolean()) {
 												if (world instanceof ServerLevel _level)
-													_level.getServer().getCommands().performCommand(
+													_level.getServer().getCommands().performPrefixedCommand(
 															new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "",
-																	new TextComponent(""), _level.getServer(), null).withSuppressedOutput(),
+																	Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 															("execute as " + entity.getDisplayName().getString() + " run "
 																	+ (command).replace("/", "")));
 											} else {
@@ -99,7 +99,7 @@ public class OnExecuteCommandProcedure {
 													event.setCanceled(true);
 												}
 												if (entity instanceof Player _player && !_player.level.isClientSide())
-													_player.displayClientMessage(new TextComponent("\u00A7cHey ! You can't execute this command !"),
+													_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"),
 															(false));
 											}
 										} else {
@@ -107,7 +107,7 @@ public class OnExecuteCommandProcedure {
 												event.setCanceled(true);
 											}
 											if (entity instanceof Player _player && !_player.level.isClientSide())
-												_player.displayClientMessage(new TextComponent("\u00A7cHey ! You can't execute this command !"),
+												_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"),
 														(false));
 										}
 									}
@@ -115,16 +115,16 @@ public class OnExecuteCommandProcedure {
 									if (MainJSonObject.get("command.*") != null) {
 										if (MainJSonObject.get("command.*").getAsBoolean()) {
 											if (world instanceof ServerLevel _level)
-												_level.getServer().getCommands().performCommand(
+												_level.getServer().getCommands().performPrefixedCommand(
 														new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "",
-																new TextComponent(""), _level.getServer(), null).withSuppressedOutput(),
+																Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 														("execute as " + entity.getDisplayName().getString() + " run " + (command).replace("/", "")));
 										} else {
 											if (event != null && event.isCancelable()) {
 												event.setCanceled(true);
 											}
 											if (entity instanceof Player _player && !_player.level.isClientSide())
-												_player.displayClientMessage(new TextComponent("\u00A7cHey ! You can't execute this command !"),
+												_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"),
 														(false));
 										}
 									} else {
@@ -132,7 +132,7 @@ public class OnExecuteCommandProcedure {
 											event.setCanceled(true);
 										}
 										if (entity instanceof Player _player && !_player.level.isClientSide())
-											_player.displayClientMessage(new TextComponent("\u00A7cHey ! You can't execute this command !"), (false));
+											_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), (false));
 									}
 								}
 							} catch (IOException e) {
@@ -161,7 +161,7 @@ public class OnExecuteCommandProcedure {
 										}
 										if (entity instanceof Player _player && !_player.level.isClientSide())
 											_player.displayClientMessage(
-													new TextComponent("\u00A7cVous n'avez pas la permission d'utiliser cette commande !"), (false));
+													Component.literal("\u00A7cVous n'avez pas la permission d'utiliser cette commande !"), (false));
 									}
 								}
 							} catch (IOException e) {
@@ -170,7 +170,7 @@ public class OnExecuteCommandProcedure {
 						}
 					} else {
 						if (entity instanceof Player _player && !_player.level.isClientSide())
-							_player.displayClientMessage(new TextComponent("\u00A7cFichier inexistant, d\u00E9connectez vous puis revenez !"),
+							_player.displayClientMessage(Component.literal("\u00A7cFichier inexistant, d\u00E9connectez vous puis revenez !"),
 									(false));
 					}
 				}

@@ -9,9 +9,7 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nullable;
 
@@ -20,8 +18,8 @@ import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
 @Mod.EventBusSubscriber
 public class OnSendChatProcedure {
 	@SubscribeEvent
-	public static void onChat(ServerChatEvent event) {
-		execute(event, event.getPlayer().level, event.getPlayer(), event.getMessage());
+	public static void onChat(ServerChatEvent.Submitted event) {
+		execute(event, event.getPlayer().level, event.getPlayer(), event.getRawText());
 	}
 
 	public static void execute(LevelAccessor world, Entity entity, String text) {
@@ -38,10 +36,10 @@ public class OnSendChatProcedure {
 			MinecraftServer _mcserv = ServerLifecycleHooks.getCurrentServer();
 			if (_mcserv != null)
 				_mcserv.getPlayerList()
-						.broadcastMessage(new TextComponent(("<"
+						.broadcastSystemMessage(Component.literal(("<"
 								+ (entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
 										.orElse(new EriniumrankModVariables.PlayerVariables())).prefix
-								+ " " + entity.getDisplayName().getString() + "\u00A7r> " + text)), ChatType.SYSTEM, Util.NIL_UUID);
+								+ " " + entity.getDisplayName().getString() + "\u00A7r> " + text)), false);
 		}
 	}
 }

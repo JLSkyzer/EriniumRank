@@ -5,7 +5,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.CommandSourceStack;
 
@@ -158,7 +158,7 @@ public class SetGroupCommandProcedure {
 						});
 					}
 					if (entity instanceof Player _player && !_player.level.isClientSide())
-						_player.displayClientMessage(new TextComponent(("\u00A7e" + (new Object() {
+						_player.displayClientMessage(Component.literal(("\u00A7e" + (new Object() {
 							public Entity getEntity() {
 								try {
 									return EntityArgument.getEntity(arguments, "player");
@@ -180,19 +180,19 @@ public class SetGroupCommandProcedure {
 						}
 					}.getEntity()) instanceof Player _player && !_player.level.isClientSide())
 						_player.displayClientMessage(
-								new TextComponent(("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))),
+								Component.literal(("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))),
 								(false));
 				} else {
 					if (entity instanceof Player _player && !_player.level.isClientSide())
-						_player.displayClientMessage(new TextComponent("\u00A7cLe grade n'existe pas !"), (false));
+						_player.displayClientMessage(Component.literal("\u00A7cLe grade n'existe pas !"), (false));
 				}
 			} else {
 				if (entity instanceof Player _player && !_player.level.isClientSide())
-					_player.displayClientMessage(new TextComponent("\u00A7cLe grade n'\u00E9xiste pas !"), (false));
+					_player.displayClientMessage(Component.literal("\u00A7cLe grade n'\u00E9xiste pas !"), (false));
 			}
 		} else {
 			if (entity instanceof Player _player && !_player.level.isClientSide())
-				_player.displayClientMessage(new TextComponent("\u00A7cVeuillez choisir un joueur !"), (false));
+				_player.displayClientMessage(Component.literal("\u00A7cVeuillez choisir un joueur !"), (false));
 		}
 	}
 }
