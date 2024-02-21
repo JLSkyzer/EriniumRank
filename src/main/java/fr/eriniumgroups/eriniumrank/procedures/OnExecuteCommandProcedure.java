@@ -1,7 +1,5 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import org.checkerframework.checker.units.qual.s;
-
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,8 +24,9 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.BufferedReader;
 
-import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
+import fr.eriniumgroups.eriniumrank.EriniumrankMod;
 
+import com.google.gson.JsonObject;
 import com.google.gson.Gson;
 
 @Mod.EventBusSubscriber
@@ -36,7 +35,7 @@ public class OnExecuteCommandProcedure {
 	public static void onCommand(CommandEvent event) {
 		Entity entity = event.getParseResults().getContext().getSource().getEntity();
 		if (entity != null) {
-			execute(event, entity.level, entity.getX(), entity.getY(), entity.getZ(), entity, event.getParseResults().getReader().getString());
+			execute(event, entity.level(), entity.getX(), entity.getY(), entity.getZ(), entity, event.getParseResults().getReader().getString());
 		}
 	}
 
@@ -48,101 +47,104 @@ public class OnExecuteCommandProcedure {
 		if (entity == null || command == null)
 			return;
 		File file = new File("");
-		com.google.gson.JsonObject MainJSonObject = new com.google.gson.JsonObject();
 		String TempText = "";
+		com.google.gson.JsonObject MainJSonObject = new com.google.gson.JsonObject();
+		com.google.gson.JsonObject RankPerm = new com.google.gson.JsonObject();
+		com.google.gson.JsonObject PlayerPerm = new com.google.gson.JsonObject();
 		if (entity instanceof Player || entity instanceof ServerPlayer) {
-			TempText = new Object() {
-				String string = (command);
-				String[] value = string.split(" ");
-				String indexvalue = value[0];
-
-				String getString() {
-					String s = indexvalue;
-					return s;
-				}
-			}.getString();
+			TempText = (command).split(" ")[0];
 			if (!TempText.contains("//")) {
 				TempText = TempText.replace("/", "");
 				if (!(TempText).equals("setgroup")) {
-					file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
-							File.separator + ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-									.orElse(new EriniumrankModVariables.PlayerVariables())).rank + ".json"));
-					if (file.exists()) {
-						{
+					RankPerm = new Object() {
+						public JsonObject parse(String rawJson) {
 							try {
-								BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-								StringBuilder jsonstringbuilder = new StringBuilder();
-								String line;
-								while ((line = bufferedReader.readLine()) != null) {
-									jsonstringbuilder.append(line);
-								}
-								bufferedReader.close();
-								MainJSonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
-								if (MainJSonObject.get(("command." + TempText)) != null) {
-									if (MainJSonObject.get(("command." + TempText)).getAsBoolean()) {
-										if (world instanceof ServerLevel _level)
-											_level.getServer().getCommands().performPrefixedCommand(
-													new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "",
-															Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-													("execute as " + entity.getDisplayName().getString() + " run " + (command).replace("/", "")));
-									} else {
-										if (MainJSonObject.get("command.*") != null) {
-											if (MainJSonObject.get("command.*").getAsBoolean()) {
-												if (world instanceof ServerLevel _level)
-													_level.getServer().getCommands().performPrefixedCommand(
-															new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "",
-																	Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-															("execute as " + entity.getDisplayName().getString() + " run "
-																	+ (command).replace("/", "")));
-											} else {
-												if (event != null && event.isCancelable()) {
-													event.setCanceled(true);
-												}
-												if (entity instanceof Player _player && !_player.level.isClientSide())
-													_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"),
-															(false));
-											}
-										} else {
-											if (event != null && event.isCancelable()) {
-												event.setCanceled(true);
-											}
-											if (entity instanceof Player _player && !_player.level.isClientSide())
-												_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"),
-														(false));
-										}
+								return new Gson().fromJson(rawJson, com.google.gson.JsonObject.class);
+							} catch (Exception e) {
+								EriniumrankMod.LOGGER.error(e);
+								return new Gson().fromJson("{}", com.google.gson.JsonObject.class);
+							}
+						}
+					}.parse(ReturnRankPermProcedure.execute(entity));
+					PlayerPerm = new Object() {
+						public JsonObject parse(String rawJson) {
+							try {
+								return new Gson().fromJson(rawJson, com.google.gson.JsonObject.class);
+							} catch (Exception e) {
+								EriniumrankMod.LOGGER.error(e);
+								return new Gson().fromJson("{}", com.google.gson.JsonObject.class);
+							}
+						}
+					}.parse(ReturnPlayerPermProcedure.execute(entity));
+					if (RankPerm.has(("command." + TempText))) {
+						if (RankPerm.get(("command." + TempText)).getAsBoolean()) {
+							if (event != null && event.isCancelable()) {
+								event.setCanceled(true);
+							}
+							if (world instanceof ServerLevel _level)
+								_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+										("execute as " + entity.getDisplayName().getString() + " run " + command.replace("/", "")));
+						} else {
+							if (RankPerm.has("command.*")) {
+								if (RankPerm.get("command.*").getAsBoolean()) {
+									if (event != null && event.isCancelable()) {
+										event.setCanceled(true);
 									}
+									if (world instanceof ServerLevel _level)
+										_level.getServer().getCommands().performPrefixedCommand(
+												new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+												("execute as " + entity.getDisplayName().getString() + " run " + command.replace("/", "")));
 								} else {
-									if (MainJSonObject.get("command.*") != null) {
-										if (MainJSonObject.get("command.*").getAsBoolean()) {
-											if (world instanceof ServerLevel _level)
-												_level.getServer().getCommands().performPrefixedCommand(
-														new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "",
-																Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-														("execute as " + entity.getDisplayName().getString() + " run " + (command).replace("/", "")));
-										} else {
-											if (event != null && event.isCancelable()) {
-												event.setCanceled(true);
-											}
-											if (entity instanceof Player _player && !_player.level.isClientSide())
-												_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"),
-														(false));
-										}
-									} else {
-										if (event != null && event.isCancelable()) {
-											event.setCanceled(true);
-										}
-										if (entity instanceof Player _player && !_player.level.isClientSide())
-											_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), (false));
+									if (event != null && event.isCancelable()) {
+										event.setCanceled(true);
 									}
+									if (entity instanceof Player _player && !_player.level().isClientSide())
+										_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
 								}
-							} catch (IOException e) {
-								e.printStackTrace();
+							} else {
+								if (event != null && event.isCancelable()) {
+									event.setCanceled(true);
+								}
+								if (entity instanceof Player _player && !_player.level().isClientSide())
+									_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
+							}
+						}
+					} else if (PlayerPerm.has(("command." + TempText))) {
+						if (PlayerPerm.get(("command." + TempText)).getAsBoolean()) {
+							if (event != null && event.isCancelable()) {
+								event.setCanceled(true);
+							}
+							if (world instanceof ServerLevel _level)
+								_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+										("execute as " + entity.getDisplayName().getString() + " run " + command.replace("/", "")));
+						} else {
+							if (PlayerPerm.has("command.*")) {
+								if (PlayerPerm.get("command.*").getAsBoolean()) {
+									if (event != null && event.isCancelable()) {
+										event.setCanceled(true);
+									}
+									if (world instanceof ServerLevel _level)
+										_level.getServer().getCommands().performPrefixedCommand(
+												new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+												("execute as " + entity.getDisplayName().getString() + " run " + command.replace("/", "")));
+								} else {
+									if (event != null && event.isCancelable()) {
+										event.setCanceled(true);
+									}
+									if (entity instanceof Player _player && !_player.level().isClientSide())
+										_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
+								}
+							} else {
+								if (event != null && event.isCancelable()) {
+									event.setCanceled(true);
+								}
+								if (entity instanceof Player _player && !_player.level().isClientSide())
+									_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
 							}
 						}
 					}
 				} else {
-					file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/players/"),
-							File.separator + (entity.getDisplayName().getString() + ".json"));
+					file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/players/"), File.separator + (entity.getDisplayName().getString() + ".json"));
 					if (file.exists()) {
 						{
 							try {
@@ -154,14 +156,13 @@ public class OnExecuteCommandProcedure {
 								}
 								bufferedReader.close();
 								MainJSonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
-								if (MainJSonObject.get("setgroup.command") != null) {
+								if (MainJSonObject.has("setgroup.command")) {
 									if (!MainJSonObject.get("setgroup.command").getAsBoolean()) {
 										if (event != null && event.isCancelable()) {
 											event.setCanceled(true);
 										}
-										if (entity instanceof Player _player && !_player.level.isClientSide())
-											_player.displayClientMessage(
-													Component.literal("\u00A7cVous n'avez pas la permission d'utiliser cette commande !"), (false));
+										if (entity instanceof Player _player && !_player.level().isClientSide())
+											_player.displayClientMessage(Component.literal("\u00A7cVous n'avez pas la permission d'utiliser cette commande !"), false);
 									}
 								}
 							} catch (IOException e) {
@@ -169,9 +170,8 @@ public class OnExecuteCommandProcedure {
 							}
 						}
 					} else {
-						if (entity instanceof Player _player && !_player.level.isClientSide())
-							_player.displayClientMessage(Component.literal("\u00A7cFichier inexistant, d\u00E9connectez vous puis revenez !"),
-									(false));
+						if (entity instanceof Player _player && !_player.level().isClientSide())
+							_player.displayClientMessage(Component.literal("\u00A7cFichier inexistant, d\u00E9connectez vous puis revenez !"), false);
 					}
 				}
 			}

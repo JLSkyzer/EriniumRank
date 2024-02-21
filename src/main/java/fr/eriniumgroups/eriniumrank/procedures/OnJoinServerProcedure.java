@@ -38,10 +38,8 @@ public class OnJoinServerProcedure {
 		File file = new File("");
 		com.google.gson.JsonObject MainJsonObject = new com.google.gson.JsonObject();
 		com.google.gson.JsonObject SecJsonObject = new com.google.gson.JsonObject();
-		if (((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-				.orElse(new EriniumrankModVariables.PlayerVariables())).rank).equals("")
-				|| ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-						.orElse(new EriniumrankModVariables.PlayerVariables())).rank).equals("\"\"")) {
+		if (((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank).equals("")
+				|| ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank).equals("\"\"")) {
 			{
 				String _setval = "default";
 				entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
@@ -51,8 +49,7 @@ public class OnJoinServerProcedure {
 			}
 		}
 		file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
-				File.separator + ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-						.orElse(new EriniumrankModVariables.PlayerVariables())).rank + ".json"));
+				File.separator + ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank + ".json"));
 		if (file.exists()) {
 			{
 				try {
@@ -64,7 +61,7 @@ public class OnJoinServerProcedure {
 					}
 					bufferedReader.close();
 					MainJsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
-					if (MainJsonObject.get("prefix") != null) {
+					if (MainJsonObject.has("prefix")) {
 						{
 							String _setval = MainJsonObject.get("prefix").getAsString();
 							entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
@@ -97,8 +94,7 @@ public class OnJoinServerProcedure {
 				}
 			}
 		}
-		file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/players/"),
-				File.separator + (entity.getDisplayName().getString() + ".json"));
+		file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/players/"), File.separator + (entity.getDisplayName().getString() + ".json"));
 		if (!file.exists()) {
 			try {
 				file.getParentFile().mkdirs();
@@ -106,7 +102,7 @@ public class OnJoinServerProcedure {
 			} catch (IOException exception) {
 				exception.printStackTrace();
 			}
-			SecJsonObject.addProperty("setgroup.command", (false));
+			SecJsonObject.addProperty("setgroup.command", false);
 			{
 				Gson mainGSONBuilderVariable = new GsonBuilder().setPrettyPrinting().create();
 				try {

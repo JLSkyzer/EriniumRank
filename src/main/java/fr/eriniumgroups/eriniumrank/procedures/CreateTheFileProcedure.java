@@ -38,8 +38,8 @@ public class CreateTheFileProcedure {
 				exception.printStackTrace();
 			}
 			jsonObject.addProperty("prefix", "\u00A7eMember");
-			jsonObject.addProperty("command.mycustomcommand", (true));
-			jsonObject.addProperty("command.disabledcommand", (false));
+			jsonObject.addProperty("command.mycustomcommand", true);
+			jsonObject.addProperty("command.disabledcommand", false);
 			{
 				Gson mainGSONBuilderVariable = new GsonBuilder().setPrettyPrinting().create();
 				try {

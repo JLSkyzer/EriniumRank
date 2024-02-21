@@ -51,8 +51,7 @@ public class SetGroupCommandProcedure {
 			}
 		}.getEntity()) instanceof ServerPlayer) {
 			if (!(StringArgumentType.getString(arguments, "group")).equals("")) {
-				file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
-						File.separator + (StringArgumentType.getString(arguments, "group") + ".json"));
+				file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"), File.separator + (StringArgumentType.getString(arguments, "group") + ".json"));
 				if (file.exists()) {
 					{
 						try {
@@ -64,7 +63,7 @@ public class SetGroupCommandProcedure {
 							}
 							bufferedReader.close();
 							JsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
-							if (JsonObject.get("prefix") != null) {
+							if (JsonObject.has("prefix")) {
 								{
 									String _setval = JsonObject.get("prefix").getAsString();
 									(new Object() {
@@ -157,7 +156,7 @@ public class SetGroupCommandProcedure {
 							}.getEntity()));
 						});
 					}
-					if (entity instanceof Player _player && !_player.level.isClientSide())
+					if (entity instanceof Player _player && !_player.level().isClientSide())
 						_player.displayClientMessage(Component.literal(("\u00A7e" + (new Object() {
 							public Entity getEntity() {
 								try {
@@ -167,8 +166,7 @@ public class SetGroupCommandProcedure {
 									return null;
 								}
 							}
-						}.getEntity()).getDisplayName().getString() + " \u00A7cest devenu \u00A7e"
-								+ StringArgumentType.getString(arguments, "group"))), (false));
+						}.getEntity()).getDisplayName().getString() + " \u00A7cest devenu \u00A7e" + StringArgumentType.getString(arguments, "group"))), false);
 					if ((new Object() {
 						public Entity getEntity() {
 							try {
@@ -178,21 +176,19 @@ public class SetGroupCommandProcedure {
 								return null;
 							}
 						}
-					}.getEntity()) instanceof Player _player && !_player.level.isClientSide())
-						_player.displayClientMessage(
-								Component.literal(("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))),
-								(false));
+					}.getEntity()) instanceof Player _player && !_player.level().isClientSide())
+						_player.displayClientMessage(Component.literal(("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))), false);
 				} else {
-					if (entity instanceof Player _player && !_player.level.isClientSide())
-						_player.displayClientMessage(Component.literal("\u00A7cLe grade n'existe pas !"), (false));
+					if (entity instanceof Player _player && !_player.level().isClientSide())
+						_player.displayClientMessage(Component.literal("\u00A7cLe grade n'existe pas !"), false);
 				}
 			} else {
-				if (entity instanceof Player _player && !_player.level.isClientSide())
-					_player.displayClientMessage(Component.literal("\u00A7cLe grade n'\u00E9xiste pas !"), (false));
+				if (entity instanceof Player _player && !_player.level().isClientSide())
+					_player.displayClientMessage(Component.literal("\u00A7cLe grade n'\u00E9xiste pas !"), false);
 			}
 		} else {
-			if (entity instanceof Player _player && !_player.level.isClientSide())
-				_player.displayClientMessage(Component.literal("\u00A7cVeuillez choisir un joueur !"), (false));
+			if (entity instanceof Player _player && !_player.level().isClientSide())
+				_player.displayClientMessage(Component.literal("\u00A7cVeuillez choisir un joueur !"), false);
 		}
 	}
 }
