@@ -6,8 +6,8 @@ license="MIT License"
 modId="eriniumrank"
 version="1.0.0"
 displayName="Erinium Rank"
-credits="Created by JLSkyzer"
 displayURL="https://github.com/JLSkyzer/EriniumRank/tree/main"
+credits="Created by JLSkyzer"
 authors="JLSkyzer"
 
 [[dependencies.eriniumrank]]

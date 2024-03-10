@@ -32,7 +32,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/"/>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.1.0_mapped_official_1.20.1/forge-1.20.1-47.1.0_mapped_official_1.20.1-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.1.0_mapped_official_1.20.1/forge-1.20.1-47.1.0_mapped_official_1.20.1-recomp.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.2.0_mapped_official_1.20.1/forge-1.20.1-47.2.0_mapped_official_1.20.1-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.2.0_mapped_official_1.20.1/forge-1.20.1-47.2.0_mapped_official_1.20.1-recomp.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -42,7 +42,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.20.1-47.1.0/feb00a92723915fc1c448b6c31fb1b51c70d5686/fmlloader-1.20.1-47.1.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.20.1-47.1.0/f7b5e4ef130d184e0ea48e6d8bf0a2d90757e8c6/fmlloader-1.20.1-47.1.0.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.20.1-47.2.0/b432664c1b7006af861425d95833cb85d2f69f4d/fmlloader-1.20.1-47.2.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.20.1-47.2.0/7811231940c0a8b6008453bbc64fdf7fa1280fe9/fmlloader-1.20.1-47.2.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -142,7 +142,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.1.0/fa3a353b05f516c12555b25a97f8dcc40067cece/fmlcore-1.20.1-47.1.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.1.0/69ca36ae5b8d45c377a5485dc38a7343e5ebf33c/fmlcore-1.20.1-47.1.0.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.2.0/ec22b83a92a11226dc64ebfa0afa4cbe22cd34d0/fmlcore-1.20.1-47.2.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.2.0/ffd3c6debac0a388c9e33ac43c9f5eafb91cb466/fmlcore-1.20.1-47.2.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -212,22 +212,22 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlearlydisplay/1.20.1-47.1.0/74bb8d28053064a13bf6c5606949a868fa41b01d/fmlearlydisplay-1.20.1-47.1.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlearlydisplay/1.20.1-47.1.0/faf61a8a8cc80e82a5691fac00149f06eeaf0438/fmlearlydisplay-1.20.1-47.1.0.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlearlydisplay/1.20.1-47.2.0/324c9eade825fb316e0d086b84878f48faaaf31/fmlearlydisplay-1.20.1-47.2.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlearlydisplay/1.20.1-47.2.0/4c56a03dcedcb909c7eaa8469dd5a36c493a0008/fmlearlydisplay-1.20.1-47.2.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.1.0/b210940fe4974ca4813c092720062c7992e4e5d/javafmllanguage-1.20.1-47.1.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.1.0/a2cd58d15791eaac9983e30be0995e66bd48633e/javafmllanguage-1.20.1-47.1.0.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.2.0/14e7bd668428799f80e580d47adb8583d573b5e1/javafmllanguage-1.20.1-47.2.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.2.0/7f9181f85acc66547685a72020713fc8cbde98/javafmllanguage-1.20.1-47.2.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.1.0/a6646c9d18d99c3458e955657938b561de323a/lowcodelanguage-1.20.1-47.1.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.1.0/f1f11b7217b8320f1b3eb81c746b7b8a70a9ba06/lowcodelanguage-1.20.1-47.1.0.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.2.0/830b8545d6f1070a2a0bb57409153d26124ccb67/lowcodelanguage-1.20.1-47.2.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.2.0/7872f5205685fdd26fae39b1be79b0e60ca5b7bd/lowcodelanguage-1.20.1-47.2.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.1.0/2a5a53d45a5b60e1914ba9bd6477270bd809a14d/mclanguage-1.20.1-47.1.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.1.0/ff1b8eeb1bd00dfb130263b8952b931f5369252e/mclanguage-1.20.1-47.1.0.jar">
+	<classpathentry sourcepath="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.2.0/2333feb811a0517bc6d8161297003ea328b224f2/mclanguage-1.20.1-47.2.0-sources.jar" kind="lib" path="C:/Users/killi/.mcreator/gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.2.0/d501d161cabed08b3c139a2c6217b02a39f3c3e9/mclanguage-1.20.1-47.2.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
