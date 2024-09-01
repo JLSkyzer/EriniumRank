@@ -1,6 +1,5 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -8,7 +7,6 @@ import net.minecraftforge.event.ServerChatEvent;
 
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.Util;
@@ -34,14 +32,10 @@ public class OnSendChatProcedure {
 		if (event != null && event.isCancelable()) {
 			event.setCanceled(true);
 		}
-		if (!world.isClientSide()) {
-			MinecraftServer _mcserv = ServerLifecycleHooks.getCurrentServer();
-			if (_mcserv != null)
-				_mcserv.getPlayerList()
-						.broadcastMessage(new TextComponent(("<"
-								+ (entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-										.orElse(new EriniumrankModVariables.PlayerVariables())).prefix
-								+ " " + entity.getDisplayName().getString() + "\u00A7r> " + text)), ChatType.SYSTEM, Util.NIL_UUID);
-		}
+		if (!world.isClientSide() && world.getServer() != null)
+			world.getServer().getPlayerList()
+					.broadcastMessage(new TextComponent(
+							("<" + (entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).prefix + " " + entity.getDisplayName().getString() + "\u00A7r> " + text)),
+							ChatType.SYSTEM, Util.NIL_UUID);
 	}
 }

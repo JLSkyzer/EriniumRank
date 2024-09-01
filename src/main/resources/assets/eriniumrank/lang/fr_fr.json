@@ -1,0 +1,9 @@
+{
+  "command.isbecome": " §cest devenu §e",
+  "command.player": "§cVeuillez choisir un joueur !",
+  "command.select": "§cChoisissez un rank !",
+  "command.noperm": "§cVous n\u0027avez pas la permission d\u0027utiliser cette commande !",
+  "command.become": "§eVous êtes devenu : §c",
+  "command.noexist": "§cLe grade n\u0027existe pas !",
+  "command.error": "§cMauvaise commande, faites /setgroup \u003cplayer\u003e \u003cgroupname\u003e"
+}

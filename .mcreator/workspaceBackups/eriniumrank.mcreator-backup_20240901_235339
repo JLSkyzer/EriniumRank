@@ -8,8 +8,12 @@
       "locked_code": false,
       "registry_name": "create_the_file",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/CreateTheFileProcedure.java"
+        ],
         "dependencies": []
-      }
+      },
+      "path": "~/File System"
     },
     {
       "name": "OnJoinServer",
@@ -19,13 +23,17 @@
       "locked_code": false,
       "registry_name": "on_join_server",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/OnJoinServerProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
             "type": "entity"
           }
         ]
-      }
+      },
+      "path": "~/File System"
     },
     {
       "name": "OnSendChat",
@@ -35,6 +43,9 @@
       "locked_code": false,
       "registry_name": "on_send_chat",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/OnSendChatProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -59,6 +70,9 @@
       "locked_code": false,
       "registry_name": "on_execute_command",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/OnExecuteCommandProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -93,7 +107,12 @@
       "sortid": 5,
       "compiles": true,
       "locked_code": false,
-      "registry_name": "set_group"
+      "registry_name": "set_group",
+      "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/command/SetGroupCommand.java"
+        ]
+      }
     },
     {
       "name": "SetGroupError",
@@ -103,6 +122,9 @@
       "locked_code": false,
       "registry_name": "set_group_error",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/SetGroupErrorProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -119,6 +141,9 @@
       "locked_code": false,
       "registry_name": "set_group_command",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/SetGroupCommandProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "arguments",
@@ -130,6 +155,73 @@
           }
         ]
       }
+    },
+    {
+      "name": "ReturnPlayerFile",
+      "type": "procedure",
+      "sortid": 8,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "return_player_file",
+      "metadata": {
+        "return_type": "file",
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/ReturnPlayerFileProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      },
+      "path": "~/Return"
+    },
+    {
+      "name": "ReturnRankFile",
+      "type": "procedure",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "return_rank_file",
+      "metadata": {
+        "return_type": "file",
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/ReturnRankFileProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      },
+      "path": "~/Return"
+    },
+    {
+      "name": "HaveThePermission",
+      "type": "procedure",
+      "sortid": 10,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "have_the_permission",
+      "metadata": {
+        "return_type": "logic",
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/HaveThePermissionProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "permission",
+            "type": "string"
+          }
+        ]
+      },
+      "path": "~/Return"
     }
   ],
   "variable_elements": [
@@ -148,11 +240,31 @@
   ],
   "sound_elements": [],
   "language_map": {
-    "en_us": {}
+    "en_us": {
+      "command.player": "",
+      "command.select": "§cChoose a rank !",
+      "command.noexist": "§cThe rank doesn\u0027t exist !",
+      "command.error": "§cWrong command, do /setgroup \u003cplayer\u003e \u003cgroupname\u003e"
+    },
+    "fr_fr": {
+      "command.player": "",
+      "command.select": "§cChoisissez un rank !",
+      "command.noexist": "§cLe grade n\u0027existe pas !",
+      "command.error": "§cMauvaise commande, faites /setgroup \u003cplayer\u003e \u003cgroupname\u003e"
+    }
   },
   "foldersRoot": {
     "name": "~",
-    "children": []
+    "children": [
+      {
+        "name": "Return",
+        "children": []
+      },
+      {
+        "name": "File System",
+        "children": []
+      }
+    ]
   },
   "workspaceSettings": {
     "modid": "eriniumrank",
@@ -172,5 +284,5 @@
     "modElementsPackage": "fr.eriniumgroups.eriniumrank",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202200348217
+  "mcreatorVersion": 202300336712
 }

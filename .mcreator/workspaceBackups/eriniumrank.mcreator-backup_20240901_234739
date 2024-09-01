@@ -8,6 +8,9 @@
       "locked_code": false,
       "registry_name": "create_the_file",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/CreateTheFileProcedure.java"
+        ],
         "dependencies": []
       }
     },
@@ -19,6 +22,9 @@
       "locked_code": false,
       "registry_name": "on_join_server",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/OnJoinServerProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -35,6 +41,9 @@
       "locked_code": false,
       "registry_name": "on_send_chat",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/OnSendChatProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -59,6 +68,9 @@
       "locked_code": false,
       "registry_name": "on_execute_command",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/OnExecuteCommandProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -93,7 +105,12 @@
       "sortid": 5,
       "compiles": true,
       "locked_code": false,
-      "registry_name": "set_group"
+      "registry_name": "set_group",
+      "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/command/SetGroupCommand.java"
+        ]
+      }
     },
     {
       "name": "SetGroupError",
@@ -103,6 +120,9 @@
       "locked_code": false,
       "registry_name": "set_group_error",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/SetGroupErrorProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "entity",
@@ -119,6 +139,9 @@
       "locked_code": false,
       "registry_name": "set_group_command",
       "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/SetGroupCommandProcedure.java"
+        ],
         "dependencies": [
           {
             "name": "arguments",
@@ -130,6 +153,48 @@
           }
         ]
       }
+    },
+    {
+      "name": "ReturnPlayerFile",
+      "type": "procedure",
+      "sortid": 8,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "return_player_file",
+      "metadata": {
+        "return_type": "file",
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/ReturnPlayerFileProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      },
+      "path": "~/Return"
+    },
+    {
+      "name": "ReturnRankFile",
+      "type": "procedure",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "return_rank_file",
+      "metadata": {
+        "return_type": "file",
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/procedures/ReturnRankFileProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      },
+      "path": "~/Return"
     }
   ],
   "variable_elements": [
@@ -152,25 +217,30 @@
   },
   "foldersRoot": {
     "name": "~",
-    "children": []
+    "children": [
+      {
+        "name": "Return",
+        "children": []
+      }
+    ]
   },
   "workspaceSettings": {
     "modid": "eriniumrank",
     "modName": "Erinium Rank",
     "version": "1.0.0",
-    "author": "killi, MCreator",
-    "websiteURL": "https://mcreator.net",
-    "license": "Academic Free License v3.0",
+    "author": "JLSkyzer",
+    "websiteURL": "https://github.com/JLSkyzer/EriniumRank/tree/main",
+    "license": "MIT License",
     "disableForgeVersionCheck": true,
     "serverSideOnly": false,
     "requiredMods": [],
     "dependencies": [],
     "dependants": [],
     "mcreatorDependencies": [],
-    "currentGenerator": "forge-1.16.5",
-    "credits": "Created using mod maker MCreator - https://mcreator.net/about",
+    "currentGenerator": "forge-1.18.2",
+    "credits": "Created by JLSkyzer",
     "modElementsPackage": "fr.eriniumgroups.eriniumrank",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202200348217
+  "mcreatorVersion": 202300336712
 }

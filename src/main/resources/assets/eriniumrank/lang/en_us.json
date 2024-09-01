@@ -1,1 +1,9 @@
-{}
+{
+  "command.isbecome": " §cis now §e",
+  "command.player": "§cPlease select a player !",
+  "command.select": "§cChoose a rank !",
+  "command.noperm": "§cYou dont have the permission to execute this command !",
+  "command.become": "§eYou are now : §c",
+  "command.noexist": "§cThe rank doesn\u0027t exist !",
+  "command.error": "§cWrong command, do /setgroup \u003cplayer\u003e \u003cgroupname\u003e"
+}
