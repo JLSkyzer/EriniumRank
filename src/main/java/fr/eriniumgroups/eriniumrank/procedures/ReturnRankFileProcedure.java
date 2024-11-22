@@ -16,7 +16,6 @@ public class ReturnRankFileProcedure {
 			return new File("");
 		com.google.gson.JsonObject JsonObject = new com.google.gson.JsonObject();
 		File file = new File("");
-		
 		return new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
 				File.separator + ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank + ".json"));
 	}

@@ -14,6 +14,7 @@ import net.minecraft.Util;
 import javax.annotation.Nullable;
 
 import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
+import fr.eriniumgroups.eriniumrank.configuration.ServerConfigConfiguration;
 
 @Mod.EventBusSubscriber
 public class OnSendChatProcedure {
@@ -29,13 +30,15 @@ public class OnSendChatProcedure {
 	private static void execute(@Nullable Event event, LevelAccessor world, Entity entity, String text) {
 		if (entity == null || text == null)
 			return;
-		if (event != null && event.isCancelable()) {
-			event.setCanceled(true);
+		if (ServerConfigConfiguration.CUSTOMCHAT.get()) {
+			if (event != null && event.isCancelable()) {
+				event.setCanceled(true);
+			}
+			if (!world.isClientSide() && world.getServer() != null)
+				world.getServer().getPlayerList()
+						.broadcastMessage(new TextComponent(
+								("<" + (entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).prefix + " " + entity.getDisplayName().getString() + "\u00A7r> " + text)),
+								ChatType.SYSTEM, Util.NIL_UUID);
 		}
-		if (!world.isClientSide() && world.getServer() != null)
-			world.getServer().getPlayerList()
-					.broadcastMessage(new TextComponent(
-							("<" + (entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).prefix + " " + entity.getDisplayName().getString() + "\u00A7r> " + text)),
-							ChatType.SYSTEM, Util.NIL_UUID);
 	}
 }

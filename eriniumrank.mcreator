@@ -222,6 +222,18 @@
         ]
       },
       "path": "~/Return"
+    },
+    {
+      "name": "ServerConfig",
+      "type": "config",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "server_config",
+      "metadata": {
+        "files": [
+          "src/main/java/fr/eriniumgroups/eriniumrank/configuration/ServerConfigConfiguration.java"
+        ]
+      }
     }
   ],
   "variable_elements": [
@@ -243,6 +255,7 @@
     "en_us": {
       "command.isbecome": " §cis now §e",
       "command.player": "§cPlease select a player !",
+      "config.eriniumrank.server_config": "EriniumRank",
       "command.select": "§cChoose a rank !",
       "command.noperm": "§cYou dont have the permission to execute this command !",
       "command.become": "§eYou are now : §c",
@@ -252,6 +265,7 @@
     "fr_fr": {
       "command.isbecome": " §cest devenu §e",
       "command.player": "§cVeuillez choisir un joueur !",
+      "config.eriniumrank.server_config": "EriniumRank",
       "command.select": "§cChoisissez un rank !",
       "command.noperm": "§cVous n\u0027avez pas la permission d\u0027utiliser cette commande !",
       "command.become": "§eVous êtes devenu : §c",

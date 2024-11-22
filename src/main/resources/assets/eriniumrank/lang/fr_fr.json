@@ -1,6 +1,7 @@
 {
   "command.isbecome": " §cest devenu §e",
   "command.player": "§cVeuillez choisir un joueur !",
+  "config.eriniumrank.server_config": "EriniumRank",
   "command.select": "§cChoisissez un rank !",
   "command.noperm": "§cVous n\u0027avez pas la permission d\u0027utiliser cette commande !",
   "command.become": "§eVous êtes devenu : §c",
