@@ -1,10 +1,10 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
 
 import net.minecraft.world.entity.Entity;
 
@@ -18,10 +18,7 @@ import java.io.BufferedReader;
 
 import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.Gson;
-
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class OnJoinServerProcedure {
 	@SubscribeEvent
 	public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -38,18 +35,14 @@ public class OnJoinServerProcedure {
 		File file = new File("");
 		com.google.gson.JsonObject MainJsonObject = new com.google.gson.JsonObject();
 		com.google.gson.JsonObject SecJsonObject = new com.google.gson.JsonObject();
-		if (((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank).equals("")
-				|| ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank).equals("\"\"")) {
+		if ((entity.getData(EriniumrankModVariables.PLAYER_VARIABLES).rank).equals("") || (entity.getData(EriniumrankModVariables.PLAYER_VARIABLES).rank).equals("\"\"")) {
 			{
-				String _setval = "default";
-				entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.rank = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				EriniumrankModVariables.PlayerVariables _vars = entity.getData(EriniumrankModVariables.PLAYER_VARIABLES);
+				_vars.rank = "default";
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
-				File.separator + ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank + ".json"));
+		file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"), File.separator + (entity.getData(EriniumrankModVariables.PLAYER_VARIABLES).rank + ".json"));
 		if (file.exists()) {
 			{
 				try {
@@ -60,19 +53,17 @@ public class OnJoinServerProcedure {
 						jsonstringbuilder.append(line);
 					}
 					bufferedReader.close();
-					MainJsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+					MainJsonObject = new com.google.gson.Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 					if (MainJsonObject.has("prefix")) {
 						{
-							String _setval = MainJsonObject.get("prefix").getAsString();
-							entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.prefix = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							EriniumrankModVariables.PlayerVariables _vars = entity.getData(EriniumrankModVariables.PLAYER_VARIABLES);
+							_vars.prefix = MainJsonObject.get("prefix").getAsString();
+							_vars.syncPlayerVariables(entity);
 						}
 					} else {
 						MainJsonObject.addProperty("prefix", "Need prefix here !");
 						{
-							Gson mainGSONBuilderVariable = new GsonBuilder().setPrettyPrinting().create();
+							com.google.gson.Gson mainGSONBuilderVariable = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
 							try {
 								FileWriter fileWriter = new FileWriter(file);
 								fileWriter.write(mainGSONBuilderVariable.toJson(MainJsonObject));
@@ -82,11 +73,9 @@ public class OnJoinServerProcedure {
 							}
 						}
 						{
-							String _setval = MainJsonObject.get("prefix").getAsString();
-							entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.prefix = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							EriniumrankModVariables.PlayerVariables _vars = entity.getData(EriniumrankModVariables.PLAYER_VARIABLES);
+							_vars.prefix = MainJsonObject.get("prefix").getAsString();
+							_vars.syncPlayerVariables(entity);
 						}
 					}
 				} catch (IOException e) {
@@ -104,7 +93,7 @@ public class OnJoinServerProcedure {
 			}
 			SecJsonObject.addProperty("setgroup.command", false);
 			{
-				Gson mainGSONBuilderVariable = new GsonBuilder().setPrettyPrinting().create();
+				com.google.gson.Gson mainGSONBuilderVariable = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
 				try {
 					FileWriter fileWriter = new FileWriter(file);
 					fileWriter.write(mainGSONBuilderVariable.toJson(SecJsonObject));

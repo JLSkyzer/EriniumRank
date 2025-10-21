@@ -1,6 +1,6 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import net.minecraft.world.entity.Entity;
 
@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.File;
 import java.io.BufferedReader;
-
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
 
 public class ReturnPlayerPermProcedure {
 	public static String execute(Entity entity) {
@@ -29,7 +26,7 @@ public class ReturnPlayerPermProcedure {
 					jsonstringbuilder.append(line);
 				}
 				bufferedReader.close();
-				JsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+				JsonObject = new com.google.gson.Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				JsonStrings = JsonObject.toString();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,5 +1,5 @@
 {
   "prefix": "§eMember",
   "command.mycustomcommand": true,
-  "command.disabledcommand": false
+  "command.tp": true
 }

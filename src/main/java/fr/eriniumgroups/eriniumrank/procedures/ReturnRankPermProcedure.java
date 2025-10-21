@@ -1,6 +1,6 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import net.minecraft.world.entity.Entity;
 
@@ -11,9 +11,6 @@ import java.io.BufferedReader;
 
 import fr.eriniumgroups.eriniumrank.network.EriniumrankModVariables;
 
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-
 public class ReturnRankPermProcedure {
 	public static String execute(Entity entity) {
 		if (entity == null)
@@ -21,8 +18,7 @@ public class ReturnRankPermProcedure {
 		File File = new File("");
 		com.google.gson.JsonObject JsonObject = new com.google.gson.JsonObject();
 		String JsonStrings = "";
-		File = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"),
-				File.separator + ((entity.getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new EriniumrankModVariables.PlayerVariables())).rank + ".json"));
+		File = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"), File.separator + (entity.getData(EriniumrankModVariables.PLAYER_VARIABLES).rank + ".json"));
 		{
 			try {
 				BufferedReader bufferedReader = new BufferedReader(new FileReader(File));
@@ -32,7 +28,7 @@ public class ReturnRankPermProcedure {
 					jsonstringbuilder.append(line);
 				}
 				bufferedReader.close();
-				JsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+				JsonObject = new com.google.gson.Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				JsonStrings = JsonObject.toString();
 			} catch (IOException e) {
 				e.printStackTrace();

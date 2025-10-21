@@ -1,6 +1,6 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
@@ -21,35 +21,13 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.arguments.StringArgumentType;
 
-import com.google.gson.JsonObject;
-import com.google.gson.GsonBuilder;
-import com.google.gson.Gson;
-
 public class SetGroupCommandProcedure {
 	public static void execute(CommandContext<CommandSourceStack> arguments, Entity entity) {
 		if (entity == null)
 			return;
 		File file = new File("");
 		com.google.gson.JsonObject JsonObject = new com.google.gson.JsonObject();
-		if ((new Object() {
-			public Entity getEntity() {
-				try {
-					return EntityArgument.getEntity(arguments, "player");
-				} catch (CommandSyntaxException e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		}.getEntity()) instanceof Player || (new Object() {
-			public Entity getEntity() {
-				try {
-					return EntityArgument.getEntity(arguments, "player");
-				} catch (CommandSyntaxException e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		}.getEntity()) instanceof ServerPlayer) {
+		if ((commandParameterEntity(arguments, "player")) instanceof Player || (commandParameterEntity(arguments, "player")) instanceof ServerPlayer) {
 			if (!(StringArgumentType.getString(arguments, "group")).equals("")) {
 				file = new File((FMLPaths.GAMEDIR.get().toString() + "/config/eriniumRanks/"), File.separator + (StringArgumentType.getString(arguments, "group") + ".json"));
 				if (file.exists()) {
@@ -62,37 +40,17 @@ public class SetGroupCommandProcedure {
 								jsonstringbuilder.append(line);
 							}
 							bufferedReader.close();
-							JsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+							JsonObject = new com.google.gson.Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 							if (JsonObject.has("prefix")) {
 								{
-									String _setval = JsonObject.get("prefix").getAsString();
-									(new Object() {
-										public Entity getEntity() {
-											try {
-												return EntityArgument.getEntity(arguments, "player");
-											} catch (CommandSyntaxException e) {
-												e.printStackTrace();
-												return null;
-											}
-										}
-									}.getEntity()).getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-										capability.prefix = _setval;
-										capability.syncPlayerVariables((new Object() {
-											public Entity getEntity() {
-												try {
-													return EntityArgument.getEntity(arguments, "player");
-												} catch (CommandSyntaxException e) {
-													e.printStackTrace();
-													return null;
-												}
-											}
-										}.getEntity()));
-									});
+									EriniumrankModVariables.PlayerVariables _vars = (commandParameterEntity(arguments, "player")).getData(EriniumrankModVariables.PLAYER_VARIABLES);
+									_vars.prefix = JsonObject.get("prefix").getAsString();
+									_vars.syncPlayerVariables((commandParameterEntity(arguments, "player")));
 								}
 							} else {
 								JsonObject.addProperty("prefix", "Need prefix here !");
 								{
-									Gson mainGSONBuilderVariable = new GsonBuilder().setPrettyPrinting().create();
+									com.google.gson.Gson mainGSONBuilderVariable = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
 									try {
 										FileWriter fileWriter = new FileWriter(file);
 										fileWriter.write(mainGSONBuilderVariable.toJson(JsonObject));
@@ -102,29 +60,9 @@ public class SetGroupCommandProcedure {
 									}
 								}
 								{
-									String _setval = JsonObject.get("prefix").getAsString();
-									(new Object() {
-										public Entity getEntity() {
-											try {
-												return EntityArgument.getEntity(arguments, "player");
-											} catch (CommandSyntaxException e) {
-												e.printStackTrace();
-												return null;
-											}
-										}
-									}.getEntity()).getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-										capability.prefix = _setval;
-										capability.syncPlayerVariables((new Object() {
-											public Entity getEntity() {
-												try {
-													return EntityArgument.getEntity(arguments, "player");
-												} catch (CommandSyntaxException e) {
-													e.printStackTrace();
-													return null;
-												}
-											}
-										}.getEntity()));
-									});
+									EriniumrankModVariables.PlayerVariables _vars = (commandParameterEntity(arguments, "player")).getData(EriniumrankModVariables.PLAYER_VARIABLES);
+									_vars.prefix = JsonObject.get("prefix").getAsString();
+									_vars.syncPlayerVariables((commandParameterEntity(arguments, "player")));
 								}
 							}
 						} catch (IOException e) {
@@ -132,51 +70,14 @@ public class SetGroupCommandProcedure {
 						}
 					}
 					{
-						String _setval = StringArgumentType.getString(arguments, "group");
-						(new Object() {
-							public Entity getEntity() {
-								try {
-									return EntityArgument.getEntity(arguments, "player");
-								} catch (CommandSyntaxException e) {
-									e.printStackTrace();
-									return null;
-								}
-							}
-						}.getEntity()).getCapability(EriniumrankModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-							capability.rank = _setval;
-							capability.syncPlayerVariables((new Object() {
-								public Entity getEntity() {
-									try {
-										return EntityArgument.getEntity(arguments, "player");
-									} catch (CommandSyntaxException e) {
-										e.printStackTrace();
-										return null;
-									}
-								}
-							}.getEntity()));
-						});
+						EriniumrankModVariables.PlayerVariables _vars = (commandParameterEntity(arguments, "player")).getData(EriniumrankModVariables.PLAYER_VARIABLES);
+						_vars.rank = StringArgumentType.getString(arguments, "group");
+						_vars.syncPlayerVariables((commandParameterEntity(arguments, "player")));
 					}
 					if (entity instanceof Player _player && !_player.level().isClientSide())
-						_player.displayClientMessage(Component.literal(("\u00A7e" + (new Object() {
-							public Entity getEntity() {
-								try {
-									return EntityArgument.getEntity(arguments, "player");
-								} catch (CommandSyntaxException e) {
-									e.printStackTrace();
-									return null;
-								}
-							}
-						}.getEntity()).getDisplayName().getString() + " \u00A7cest devenu \u00A7e" + StringArgumentType.getString(arguments, "group"))), false);
-					if ((new Object() {
-						public Entity getEntity() {
-							try {
-								return EntityArgument.getEntity(arguments, "player");
-							} catch (CommandSyntaxException e) {
-								e.printStackTrace();
-								return null;
-							}
-						}
-					}.getEntity()) instanceof Player _player && !_player.level().isClientSide())
+						_player.displayClientMessage(Component.literal(("\u00A7e" + (commandParameterEntity(arguments, "player")).getDisplayName().getString() + " \u00A7cest devenu \u00A7e" + StringArgumentType.getString(arguments, "group"))),
+								false);
+					if ((commandParameterEntity(arguments, "player")) instanceof Player _player && !_player.level().isClientSide())
 						_player.displayClientMessage(Component.literal(("\u00A7eVous \u00EAtes devenu : \u00A7c" + StringArgumentType.getString(arguments, "group"))), false);
 				} else {
 					if (entity instanceof Player _player && !_player.level().isClientSide())
@@ -189,6 +90,15 @@ public class SetGroupCommandProcedure {
 		} else {
 			if (entity instanceof Player _player && !_player.level().isClientSide())
 				_player.displayClientMessage(Component.literal("\u00A7cVeuillez choisir un joueur !"), false);
+		}
+	}
+
+	private static Entity commandParameterEntity(CommandContext<CommandSourceStack> arguments, String parameter) {
+		try {
+			return EntityArgument.getEntity(arguments, parameter);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

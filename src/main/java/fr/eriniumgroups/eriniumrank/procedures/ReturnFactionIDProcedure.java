@@ -1,6 +1,6 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import net.minecraft.world.entity.Entity;
 
@@ -9,9 +9,6 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.BufferedReader;
 
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-
 public class ReturnFactionIDProcedure {
 	public static String execute(Entity entity) {
 		if (entity == null)
@@ -19,7 +16,9 @@ public class ReturnFactionIDProcedure {
 		File File = new File("");
 		com.google.gson.JsonObject JsonObject = new com.google.gson.JsonObject();
 		String JsonStrings = "";
-		File = new File((FMLPaths.GAMEDIR.get().toString() + "/player_informations/"), File.separator + (entity.getUUID().toString() + ".json"));
+		String filename = "";
+		filename = entity.getStringUUID() + ".json";
+		File = new File((FMLPaths.GAMEDIR.get().toString() + "/" + "erinium_faction" + "/" + "players/"), File.separator + filename);
 		{
 			try {
 				BufferedReader bufferedReader = new BufferedReader(new FileReader(File));
@@ -29,7 +28,7 @@ public class ReturnFactionIDProcedure {
 					jsonstringbuilder.append(line);
 				}
 				bufferedReader.close();
-				JsonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+				JsonObject = new com.google.gson.Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				JsonStrings = JsonObject.get("faction").getAsString();
 			} catch (IOException e) {
 				e.printStackTrace();

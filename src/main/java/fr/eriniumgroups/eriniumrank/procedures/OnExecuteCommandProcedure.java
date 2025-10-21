@@ -1,10 +1,11 @@
 package fr.eriniumgroups.eriniumrank.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.CommandEvent;
+import net.neoforged.neoforge.event.CommandEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.bus.api.Event;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
@@ -26,10 +27,7 @@ import java.io.BufferedReader;
 
 import fr.eriniumgroups.eriniumrank.EriniumrankMod;
 
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class OnExecuteCommandProcedure {
 	@SubscribeEvent
 	public static void onCommand(CommandEvent event) {
@@ -52,34 +50,45 @@ public class OnExecuteCommandProcedure {
 		com.google.gson.JsonObject RankPerm = new com.google.gson.JsonObject();
 		com.google.gson.JsonObject PlayerPerm = new com.google.gson.JsonObject();
 		if (entity instanceof Player || entity instanceof ServerPlayer) {
-			TempText = (command).split(" ")[0];
+			TempText = new Object() {
+				private String returnValue(String string, int Index) {
+					try {
+						return ((string).split(" ")[(int) Index]);
+						// Utilisez account ici
+					} catch (ArrayIndexOutOfBoundsException e) {
+						// Gérer l'erreur ici, par exemple :
+						System.out.println("Valeur null !");
+						return "";
+					}
+				}
+			}.returnValue(command, 0);
 			if (!TempText.contains("//")) {
 				TempText = TempText.replace("/", "");
 				if (!(TempText).equals("setgroup")) {
 					RankPerm = new Object() {
-						public JsonObject parse(String rawJson) {
+						public com.google.gson.JsonObject parse(String rawJson) {
 							try {
-								return new Gson().fromJson(rawJson, com.google.gson.JsonObject.class);
+								return new com.google.gson.Gson().fromJson(rawJson, com.google.gson.JsonObject.class);
 							} catch (Exception e) {
 								EriniumrankMod.LOGGER.error(e);
-								return new Gson().fromJson("{}", com.google.gson.JsonObject.class);
+								return new com.google.gson.Gson().fromJson("{}", com.google.gson.JsonObject.class);
 							}
 						}
 					}.parse(ReturnRankPermProcedure.execute(entity));
 					PlayerPerm = new Object() {
-						public JsonObject parse(String rawJson) {
+						public com.google.gson.JsonObject parse(String rawJson) {
 							try {
-								return new Gson().fromJson(rawJson, com.google.gson.JsonObject.class);
+								return new com.google.gson.Gson().fromJson(rawJson, com.google.gson.JsonObject.class);
 							} catch (Exception e) {
 								EriniumrankMod.LOGGER.error(e);
-								return new Gson().fromJson("{}", com.google.gson.JsonObject.class);
+								return new com.google.gson.Gson().fromJson("{}", com.google.gson.JsonObject.class);
 							}
 						}
 					}.parse(ReturnPlayerPermProcedure.execute(entity));
 					if (RankPerm.has(("command." + TempText))) {
 						if (RankPerm.get(("command." + TempText)).getAsBoolean()) {
-							if (event != null && event.isCancelable()) {
-								event.setCanceled(true);
+							if (event instanceof ICancellableEvent _cancellable) {
+								_cancellable.setCanceled(true);
 							}
 							if (world instanceof ServerLevel _level)
 								_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
@@ -87,23 +96,23 @@ public class OnExecuteCommandProcedure {
 						} else {
 							if (RankPerm.has("command.*")) {
 								if (RankPerm.get("command.*").getAsBoolean()) {
-									if (event != null && event.isCancelable()) {
-										event.setCanceled(true);
+									if (event instanceof ICancellableEvent _cancellable) {
+										_cancellable.setCanceled(true);
 									}
 									if (world instanceof ServerLevel _level)
 										_level.getServer().getCommands().performPrefixedCommand(
 												new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 												("execute as " + entity.getDisplayName().getString() + " run " + command.replace("/", "")));
 								} else {
-									if (event != null && event.isCancelable()) {
-										event.setCanceled(true);
+									if (event instanceof ICancellableEvent _cancellable) {
+										_cancellable.setCanceled(true);
 									}
 									if (entity instanceof Player _player && !_player.level().isClientSide())
 										_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
 								}
 							} else {
-								if (event != null && event.isCancelable()) {
-									event.setCanceled(true);
+								if (event instanceof ICancellableEvent _cancellable) {
+									_cancellable.setCanceled(true);
 								}
 								if (entity instanceof Player _player && !_player.level().isClientSide())
 									_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
@@ -111,8 +120,8 @@ public class OnExecuteCommandProcedure {
 						}
 					} else if (PlayerPerm.has(("command." + TempText))) {
 						if (PlayerPerm.get(("command." + TempText)).getAsBoolean()) {
-							if (event != null && event.isCancelable()) {
-								event.setCanceled(true);
+							if (event instanceof ICancellableEvent _cancellable) {
+								_cancellable.setCanceled(true);
 							}
 							if (world instanceof ServerLevel _level)
 								_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
@@ -120,23 +129,23 @@ public class OnExecuteCommandProcedure {
 						} else {
 							if (PlayerPerm.has("command.*")) {
 								if (PlayerPerm.get("command.*").getAsBoolean()) {
-									if (event != null && event.isCancelable()) {
-										event.setCanceled(true);
+									if (event instanceof ICancellableEvent _cancellable) {
+										_cancellable.setCanceled(true);
 									}
 									if (world instanceof ServerLevel _level)
 										_level.getServer().getCommands().performPrefixedCommand(
 												new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 												("execute as " + entity.getDisplayName().getString() + " run " + command.replace("/", "")));
 								} else {
-									if (event != null && event.isCancelable()) {
-										event.setCanceled(true);
+									if (event instanceof ICancellableEvent _cancellable) {
+										_cancellable.setCanceled(true);
 									}
 									if (entity instanceof Player _player && !_player.level().isClientSide())
 										_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
 								}
 							} else {
-								if (event != null && event.isCancelable()) {
-									event.setCanceled(true);
+								if (event instanceof ICancellableEvent _cancellable) {
+									_cancellable.setCanceled(true);
 								}
 								if (entity instanceof Player _player && !_player.level().isClientSide())
 									_player.displayClientMessage(Component.literal("\u00A7cHey ! You can't execute this command !"), false);
@@ -155,11 +164,11 @@ public class OnExecuteCommandProcedure {
 									jsonstringbuilder.append(line);
 								}
 								bufferedReader.close();
-								MainJSonObject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+								MainJSonObject = new com.google.gson.Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 								if (MainJSonObject.has("setgroup.command")) {
 									if (!MainJSonObject.get("setgroup.command").getAsBoolean()) {
-										if (event != null && event.isCancelable()) {
-											event.setCanceled(true);
+										if (event instanceof ICancellableEvent _cancellable) {
+											_cancellable.setCanceled(true);
 										}
 										if (entity instanceof Player _player && !_player.level().isClientSide())
 											_player.displayClientMessage(Component.literal("\u00A7cVous n'avez pas la permission d'utiliser cette commande !"), false);
